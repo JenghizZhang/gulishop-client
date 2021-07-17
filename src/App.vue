@@ -1,28 +1,23 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+    <div>
+        <Header />
+        <router-view></router-view>
+        <Footer v-show="!$route.meta.isHiddenFooter"/>
+        <!-- <Footer v-show="$route.path.indexOf('/login') ===-1 && $route.path.indexOf('/register') ===-1"/> -->
+    </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+    import Footer from '@/components/Footer'
+    import Header from '@/components/Header'
+    
+    export default {
+        name: "App",
+        // 非路由组件的注册
+        components:{Footer, Header},
+    };
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style scoped>
+
 </style>

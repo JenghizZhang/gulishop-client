@@ -1,8 +1,11 @@
 import Vue from 'vue'
-import App from './App.vue'
+import App from '@/App'
+import router from '@/router'
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 new Vue({
+  el:'#app',
   render: h => h(App),
-}).$mount('#app')
+  router, //vc vm都可以使用$route $router
+})
