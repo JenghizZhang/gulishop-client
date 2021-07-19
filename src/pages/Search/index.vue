@@ -1,6 +1,6 @@
 <template>
     <div>
-        Search 
+        <TypeNav />
         params:{{keyWord}}
     </div>
 </template>
