@@ -283,91 +283,61 @@
 
 ### 接下来我们就要做首页的ListContainer和Floor组件
 
-
 #### 34、设计json数据的结构和值
 	banner.json
 	floor.json
 	
-35、使用mockjs来模拟数据接口（其实和ajax差不多，mock其实就是给我们的json数据指定一个url路径去做请求）
+#### 35、使用mockjs来模拟数据接口（其实和ajax差不多，mock其实就是给我们的json数据指定一个url路径去做请求）
 	准备json数据
 	使用mockjs来模拟提供接口地址
 	在main中引入mockServer.js
 	在ajax当中修改Ajax中的baseUrl 为 /mock  变为一个新的文件 mockAjax
 
-
 	mock会拦截我们的ajax请求，不会真正去发送请求。（发送请求是往本地发的，没有往后端发，请求的数据也是本地的）
 	
-	
-36、mock数据的随机语法
+#### 36、mock数据的随机语法
 	看文档
 
-
-37、mock数据的vuex编码
+#### 37、mock数据的vuex编码
 	和categoryList的获取几乎一致，把mock接口当真正接口对待就好了
 
-
-
-	
-
-38、实现页面轮播
+#### 38、实现页面轮播
 	swiper的用法参考官方网站
 	安装 引入js和css
 	swiper必须在页面的数据结构显示完成后创建才会生效
 
-
-39、解决swiper影响多个页面的bug
-
+#### 39、解决swiper影响多个页面的bug
 	通过选择器可以指定哪个地方需要，但是不好
 	通过ref最好
-	
 
-40、swiper创建的时间应该是在页面列表创建之后才会有效果
+#### 40、swiper创建的时间应该是在页面列表创建之后才会有效果
 	静态页面是没问题的
 	静态页面不需要等待数据，因此monted完全可以去创建swiper
-
 
 	现在我们的数据是动态的，monted内部去创建，数据还没更新到界面上，因此无效
 	可以使用延迟定时器去创建 但是不好
 
-
-
-41、使用watch + nextTick  去解决比较好	
+#### 41、使用watch + nextTick  去解决比较好	
 	Vue.nextTick 和 vm.$nextTick 效果一样
 	nextTick是在最近的一次更新dom之后会立即调用传入nextTick的回调函数
 
-
-42、动态显示Floor组件
+#### 42、动态显示Floor组件
 	数据要对应起来
 
-
-43、Floor当中的轮播没效果？
+#### 43、Floor当中的轮播没效果？
 	它是根据数据循环创建组件对象的，外部的floor创建的时候
 	所以数据肯定是已经获取到了，所以我们在mounted内部去创建swiper
 
-
-44、定义可复用的轮播组件
+#### 44、定义可复用的轮播组件
 	banner是在watch当中去创建swiper 因为组件创建的时候数据不一定更新
 	floor是在mounted当中去创建swiper，因为内部组件创建的时候，数据已经存在了
 
-
-45、查看数据的时候应该怎么去查看
+#### 45、查看数据的时候应该怎么去查看
 	看组件没有数据  接着看vuex没有数据   然后看network请求状态
-
-
-//到此  首页逻辑就算告一段落  下面开始就是搜索页
-
-
-
-
-
-
-
-
 
 ## day05
 
-
-46、实现search与searchSelector静态组件
+#### 46、实现search与searchSelector静态组件
 	searchSelector是search组件的一个子组件
 
 47、search接口测试和编写请求函数 （参数按照文档的给定）

@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import App from '@/App'
 import router from '@/router'
+import 'swiper/css/swiper.css'; //引入swiper的css
 
 import TypeNav from '@/components/TypeNav'
 import store from '@/store'
+import '@/mock/mockServer'
 Vue.component('TypeNav',TypeNav)
 
 Vue.config.productionTip = false;
