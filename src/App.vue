@@ -15,6 +15,9 @@
         name: "App",
         // 非路由组件的注册
         components:{Footer, Header},
+        mounted() {
+            this.$store.dispatch('home/getCategoryList')
+        },
     };
 </script>
 

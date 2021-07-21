@@ -54,8 +54,10 @@
             toSearch(){
                 this.$router.push({
                     name:'search',
-                    params:{keyWord:this.keyWord||undefined}
+                    params:{keyWord:this.keyWord||undefined},
+                    query:this.$route.query,
                 })
+                this.keyWord=''
             }
         }
     }

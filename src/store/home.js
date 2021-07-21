@@ -12,7 +12,7 @@ const home = {
             if(result.code===200){
                 commit('RECEIVE_CATEGORYLIST',result.data)
             }else{
-                
+                alert(result.msg)
             }
         }
     },
