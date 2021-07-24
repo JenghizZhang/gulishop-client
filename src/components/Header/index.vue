@@ -54,12 +54,17 @@
             toSearch(){
                 this.$router.push({
                     name:'search',
-                    params:{keyWord:this.keyWord||undefined},
+                    params:{keyword:this.keyWord||undefined},
                     query:this.$route.query,
                 })
+            },
+            setKeyword(){
                 this.keyWord=''
             }
-        }
+        },
+        mounted() {
+            this.$bus.$on('clearKeyword',this.setKeyword)
+        },
     }
 </script>
 

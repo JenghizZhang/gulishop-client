@@ -4,16 +4,8 @@ Vue.use(Vuex)
 
 import home from '@/store/home'
 import user from '@/store/user'
-
-const state={}
-const actions={}
-const mutations={}
-const getters={}
+import search from '@/store/search'
 
 export default new Vuex.Store({
-    state,
-    actions,
-    mutations,
-    getters,
-    modules: {user,home},
+    modules: { user, home, search},
 })

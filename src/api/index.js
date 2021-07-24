@@ -31,6 +31,15 @@ export const reqCategoryList = ()=>{
     })
 }
 
+// 4. 搜索商品
+export const reqSearchList = (searchParams={})=>{
+    return request({
+        url:'/list',
+        method: 'POST',
+        data:searchParams //searchParams是用户搜索的参数，这个参数是用户再发请求的时候传递的
+    })
+}
+
 // 请求获取模拟接口数据banner
 export const reqBannerList = ()=>{
     return mockAjax({

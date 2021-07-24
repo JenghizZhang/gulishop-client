@@ -110,11 +110,9 @@
 </template>
 
 <script>
-import MySwiper from "@/components/MySwiper";
 import { mapState } from "vuex";
 export default {
     name: "ListContainer",
-    components:{MySwiper},
     mounted() {
         this.$store.dispatch("home/getBannerList");
 

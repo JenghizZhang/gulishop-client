@@ -52,7 +52,7 @@ const router = new VueRouter({
             }
         },
         {
-            path:'/search/:keyWord?',
+            path:'/search/:keyword?',
             component: Search,
             name:'search',
             props:true

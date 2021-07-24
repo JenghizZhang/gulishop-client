@@ -106,12 +106,10 @@
 </template>
 
 <script>
-import MySwiper from "@/components/MySwiper";
 // import 'swiper/css/swiper.css';
 export default {
     name: "Floor",
     props: ["floor"],
-	components:{MySwiper},
     // 页面形成之后才实例化的，因为没有发送请求请求数据
     /* watch: {
         floor: {
