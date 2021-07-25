@@ -1836,7 +1836,11 @@
 
                     // 跳转之前，要合并原来过来时候带的params参数
                     location.params=this.$route.params
-                    this.$router.push(location)
+                    if(this.$route.path !== "/home"){
+                        this.$router.replace(location)
+                    }else{
+                        this.$router.push(location)
+                    }
                 }
             },
 

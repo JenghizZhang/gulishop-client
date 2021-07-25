@@ -5,11 +5,12 @@ import 'swiper/css/swiper.css'; //引入swiper的css
 
 import TypeNav from '@/components/TypeNav'
 import MySwiper from '@/components/MySwiper'
+import Pagination from '@/components/Pagination'
 import store from '@/store'
 import '@/mock/mockServer'
 Vue.component('MySwiper', MySwiper)
 Vue.component('TypeNav', TypeNav)
-
+Vue.component('Pagination', Pagination)
 Vue.config.productionTip = false;
 
 new Vue({

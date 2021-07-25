@@ -1,0 +1,23 @@
+{
+  "id": "2698635",
+  "name": "谷粒商城Vue",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "10331450",
+      "name": "down",
+      "font_class": "down",
+      "unicode": "e69a",
+      "unicode_decimal": 59034
+    },
+    {
+      "icon_id": "10331464",
+      "name": "up",
+      "font_class": "up",
+      "unicode": "e69d",
+      "unicode_decimal": 59037
+    }
+  ]
+}

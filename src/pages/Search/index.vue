@@ -45,24 +45,52 @@
                     <div class="sui-navbar">
                         <div class="navbar-inner filter">
                             <ul class="sui-nav">
-                                <li class="active">
-                                    <a href="#">综合</a>
+                                <li
+                                    :class="{active:sortFlag ==='1',}"
+                                >
+                                    <a href="javascript:;"  @click="changeSort('1')">
+                                        综合
+                                        <span v-if="sortFlag === '1'"
+                                            class="iconfont"
+                                            :class="{
+                                                icondown:
+                                                    sortType === 'desc',
+                                                iconup:
+                                                    sortType === 'asc',
+                                            }"
+                                        ></span>
+                                    </a>
+                                </li>
+
+                                <li
+                                    :class="{active:sortFlag ==='2',}"
+                                >
+                                    <a href="javascript:;" @click="changeSort('2')">
+                                        价格
+                                        <i
+                                            v-if="sortFlag === '2'"
+                                            class="iconfont"
+                                            :class="{
+                                                icondown:
+                                                    sortType === 'desc',
+                                                iconup:
+                                                    sortType === 'asc',
+                                            }"
+                                        ></i>
+                                    </a>
                                 </li>
                                 <li>
-                                    <a href="#">销量</a>
+                                    <a href="javascript:;">销量</a>
                                 </li>
                                 <li>
-                                    <a href="#">新品</a>
+                                    <a href="javascript:;">新品</a>
                                 </li>
                                 <li>
-                                    <a href="#">评价</a>
+                                    <a href="javascript:;">评价</a>
                                 </li>
-                                <li>
-                                    <a href="#">价格⬆</a>
-                                </li>
-                                <li>
+                                <!-- <li>
                                     <a href="#">价格⬇</a>
-                                </li>
+                                </li> -->
                             </ul>
                         </div>
                     </div>
@@ -561,34 +589,14 @@
                             </li> -->
                         </ul>
                     </div>
-                    <div class="fr page">
-                        <div class="sui-pagination clearfix">
-                            <ul>
-                                <li class="prev disabled">
-                                    <a href="#">«上一页</a>
-                                </li>
-                                <li class="active">
-                                    <a href="#">1</a>
-                                </li>
-                                <li>
-                                    <a href="#">2</a>
-                                </li>
-                                <li>
-                                    <a href="#">3</a>
-                                </li>
-                                <li>
-                                    <a href="#">4</a>
-                                </li>
-                                <li>
-                                    <a href="#">5</a>
-                                </li>
-                                <li class="dotted"><span>...</span></li>
-                                <li class="next">
-                                    <a href="#">下一页»</a>
-                                </li>
-                            </ul>
-                            <div><span>共10页&nbsp;</span></div>
-                        </div>
+                    <div class="designedPagination">
+                        <Pagination 
+                            :currentPageNo='searchParams.pageNo'
+                            :total='searchInfo.total'
+                            :pageSize='searchParams.pageSize'
+                            :continueNo='5'
+                            @changePageNo='changePageNo'
+                        />
                     </div>
                 </div>
             </div>
@@ -597,7 +605,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 import SearchSelector from "./SearchSelector/SearchSelector";
 export default {
     name: "Search",
@@ -613,7 +621,8 @@ export default {
             this.searchParams.category1Id = undefined;
             this.searchParams.category2Id = undefined;
             this.searchParams.category3Id = undefined;
-            this.$router.push({
+            this.searchParams.pageNo=1
+            this.$router.replace({
                 name: "search",
                 params: { keyword: this.searchParams.keyword || undefined },
                 query: {},
@@ -622,7 +631,8 @@ export default {
         // 删除关键字的搜索条件
         removeKeyword() {
             this.searchParams.keyword = undefined;
-            this.$router.push({
+            this.searchParams.pageNo=1
+            this.$router.replace({
                 name: "search",
                 params: {},
                 query: this.$route.query,
@@ -632,16 +642,19 @@ export default {
         // 删除品牌
         removeTrademark() {
             this.searchParams.trademark = undefined;
+            this.searchParams.pageNo=1
             this.getSearchInfo(this.searchParams);
         },
         // 删除某个属性值搜索，重新发请求
         removeAttr(index) {
             this.searchParams.props.splice(index, 1);
+            this.searchParams.pageNo=1
             this.getSearchInfo(this.searchParams);
         },
         // 用户点击品牌后重新发请求
         searchForTrademark(trademark) {
             this.searchParams.trademark = trademark;
+            this.searchParams.pageNo=1
             this.getSearchInfo(this.searchParams);
         },
         // 用户点击平台属性后重新发送请求
@@ -649,29 +662,59 @@ export default {
             // 判断是否发过请求
             if (this.searchParams.props.indexOf(attr) === -1) {
                 this.searchParams.props.push(attr);
+                this.searchParams.pageNo=1
                 this.getSearchInfo(this.searchParams);
             }
         },
+        // 点击综合或者价格的排序回调
+        changeSort(sortFlag){
+            // 判断点击是不是和原来的排序标志一样
+            let originSortFlag = this.sortFlag;
+            let originSortType = this.sortType;
+            let newOrder = ''
+            if(sortFlag===originSortFlag){
+                // 点击的是同一个排序
+                newOrder = `${sortFlag}:${originSortType==='asc'?'desc':'asc'}`
+            }else{
+                // 点击的是不同的排序
+                newOrder = `${sortFlag}:asc`
+            }
+            this.searchParams.order=newOrder;
+            this.searchParams.pageNo=1
+            this.getSearchInfo(this.searchParams);
+        },
+        // 点击页码回调函数
+        changePageNo(num){
+            this.searchParams.pageNo=num
+            this.getSearchInfo(this.searchParams);
+        }
     },
     computed: {
         ...mapGetters("search", ["goodsList"]),
+        ...mapState("search", ["searchInfo"]),
+        sortFlag(){
+            return this.searchParams.order.split(':')[0]
+        },
+        sortType(){
+            return this.searchParams.order.split(':')[1]
+        }
     },
     data() {
         return {
             searchParams: {
                 // 这个对象称作初始化搜索参数
                 // 之后只要是作为搜索条件的所有相关数据全部先在这个对象初始化
-                category1Id: "",
-                category2Id: "",
-                category3Id: "",
-                categoryName: "",
-                keyword: "",
+                category1Id: undefined,
+                category2Id: undefined,
+                category3Id: undefined,
+                categoryName: undefined,
+                keyword: undefined,
                 props: [],
-                trademark: "",
+                trademark: undefined,
 
                 // 默认搜索条件
-                order: "1:desc", // 排序规则，后台排序，要给后台一个默认的排序规则
-                pageNo: 1, // 搜索第几页商品，分页也是后台做好的
+                order: "1:asc", // 排序规则，后台排序，要给后台一个默认的排序规则
+                pageNo: 6, // 搜索第几页商品，分页也是后台做好的
                 pageSize: 10,
             },
         };
@@ -684,6 +727,11 @@ export default {
                     ...this.$route.params,
                     ...this.$route.query,
                 };
+                Object.keys(this.searchParams).forEach((key) => {
+                    if (this.searchParams[key] === "") {
+                        delete this.searchParams[key];
+                    }
+                });
                 this.getSearchInfo(this.searchParams);
             },
         },
@@ -695,6 +743,11 @@ export default {
             ...this.$route.params,
             ...this.$route.query,
         };
+        Object.keys(this.searchParams).forEach((key) => {
+            if (this.searchParams[key] === "") {
+                delete this.searchParams[key];
+            }
+        });
     },
     mounted() {
         this.getSearchInfo(this.searchParams);
@@ -944,7 +997,11 @@ export default {
                     }
                 }
             }
+            .designedPagination {
+                display:flex;
+                justify-content:center;
 
+            }
             .page {
                 width: 733px;
                 height: 66px;
