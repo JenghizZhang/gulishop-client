@@ -4,7 +4,7 @@
         <button v-if='startEnd.start > 1' @click="$emit('changePageNo',1)">1</button>
         <button v-if='startEnd.start > 2'>···</button>
 
-        <button v-for="page in pageArr" :key="page" :class='{active:currentPageNo===page}' @click="$emit('changePageNo',page)">{{page}}</button>
+        <button v-for="page in pageArr" :key="page" :class='{active:currentPageNo===page}' :disabled='currentPageNo===page' @click="$emit('changePageNo',page)">{{page}}</button>
 
         <button v-if='startEnd.end < totalPageNo-1'>···</button>
         <button v-if='startEnd.end < totalPageNo'  @click="$emit('changePageNo',totalPageNo)">{{ totalPageNo }}</button>

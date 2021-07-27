@@ -15,43 +15,59 @@ import request from './ajax'
 import mockAjax from './mockAjax'
 
 // 2. 登录
-export const reqLogin = (account,password) => {
+export const reqLogin = (account, password) => {
     return request({
-        url:'/user/passport/login',
+        url: '/user/passport/login',
         method: 'POST',
-        data:{account,password}
+        data: { account, password }
     })
 }
 
 // 3. 请求首页三级分类
-export const reqCategoryList = ()=>{
+export const reqCategoryList = () => {
     return request({
-        url:'/product/getBaseCategoryList',
+        url: '/product/getBaseCategoryList',
         method: 'GET',
     })
 }
 
 // 4. 搜索商品
-export const reqSearchList = (searchParams={})=>{
+export const reqSearchList = (searchParams = {}) => {
     return request({
-        url:'/list',
+        url: '/list',
         method: 'POST',
-        data:searchParams //searchParams是用户搜索的参数，这个参数是用户再发请求的时候传递的
+        data: searchParams //searchParams是用户搜索的参数，这个参数是用户再发请求的时候传递的
+    })
+}
+
+// 5. 获取商品详情
+export const reqDetailInfo = (skuId) => {
+    return request({
+        url: '/item/' + skuId,
+        method: 'GET',
+    })
+}
+
+// 7.请求添加购物车（修改购物车的商品数量）
+export const reqAddOrUpdateShopCart = (skuId, skuNum) => {
+    return request({
+        url: `/cart/addToCart/${skuId}/${skuNum}`,
+        method: 'POST',
     })
 }
 
 // 请求获取模拟接口数据banner
-export const reqBannerList = ()=>{
+export const reqBannerList = () => {
     return mockAjax({
-        url:'/banner',
-        method:'GET',
+        url: '/banner',
+        method: 'GET',
     })
 }
 
 // 请求获取模拟接口数据floor
-export const reqFloorList = ()=>{
+export const reqFloorList = () => {
     return mockAjax({
-        url:'/floor',
-        method:'GET',
+        url: '/floor',
+        method: 'GET',
     })
 }
