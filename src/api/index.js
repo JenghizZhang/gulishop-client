@@ -48,11 +48,36 @@ export const reqDetailInfo = (skuId) => {
     })
 }
 
+// 6. 获取购物车列表
+export const reqCartList = () => {
+    return request({
+        url: '/cart/cartList',
+        method: 'GET',
+    })
+}
+
+
 // 7.请求添加购物车（修改购物车的商品数量）
 export const reqAddOrUpdateShopCart = (skuId, skuNum) => {
     return request({
         url: `/cart/addToCart/${skuId}/${skuNum}`,
         method: 'POST',
+    })
+}
+
+// 8. 切换商品选中状态
+export const reqUpdateCartIsCheck = (skuId, isChecked)=>{
+    return request({
+        url: `/cart/checkCart/${skuId}/${isChecked}`,
+        method: 'GET',
+    })
+}
+
+// 9. 删除购物车商品
+export const reqDeleteShopCart = (skuId)=>{
+    return request({
+        url: '/cart/deleteCart/'+skuId,
+        method: 'DELETE',
     })
 }
 

@@ -1,11 +1,13 @@
 import storageUtils from '@/utils/storageUtils'
 import {reqLogin} from '@/api'
+import { getUserTempId } from '@/utils/userAbout'
 
 const user = {
-
     namespaced: true,
     state:{
-        user:{}
+        user:{},
+        // getUserTempId是一个函数，专门用来生成用户的临时标识的
+        userTempId:getUserTempId()
     },
     actions:{
         async updateToken({commit},value){

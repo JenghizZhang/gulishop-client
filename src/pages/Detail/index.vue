@@ -530,7 +530,15 @@ export default {
                     // 第二步：根据请求添加购物车返回的信息决定是否跳转
                     // 需要携带1. skuNum（query参数）2. 商品详情信息（sessionStorage）
                     this.$router.push("/addcartsuccess?skuNum=" + this.skuNum);
-                    sessionStorage.setItem('SKUINFO_KEY','Apple iPhone 6s（A1700）64G玫瑰金色移动通信电信4G手机')
+                    let skuInfo = {
+                        name: "Apple iPhone 6s（A1700）64G玫瑰金色移动通信电信4G手机",
+                        img: this.imgList,
+                        skuId: this.skuId
+                    };
+                    sessionStorage.setItem(
+                        "SKUINFO_KEY",
+                        JSON.stringify(skuInfo)
+                    );
                 })
                 .catch((error) => {
                     // 失败的回调

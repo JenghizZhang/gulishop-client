@@ -4,12 +4,17 @@ import Register from '@/pages/Register'
 import Search from '@/pages/Search'
 import Dertail from '@/pages/Detail'
 import AddCartSuccess from '@/pages/AddCartSuccess'
+import ShopCart from '@/pages/ShopCart'
 
 export default
     [
         {
             path: '/home',
             component: Home,
+        },
+        {
+            path: '/shopCart',
+            component: ShopCart,
         },
         {
             path: '/addcartsuccess',

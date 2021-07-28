@@ -27,10 +27,15 @@ const service = axios.create({
 service.interceptors.request.use(function (config) {
     // config其实就是请求报文，需要return回去
     const token = storageUtils.getToken()
-    token && (config.headers.Authorization = 'Bearer ' + token);  
+    const tempId = storageUtils.getTempId()
+    if (token) {
+        config.headers.Authorization = 'Bearer ' + token
+    } else if (tempId) {
+        config.headers.userTempId = tempId;
+    }
     NProgress.start() //开启进度条
     return config;
-  }, function (error) { //请求拦截器失败的回调一般不写，失败了就没有下文了
+}, function (error) { //请求拦截器失败的回调一般不写，失败了就没有下文了
     return Promise.reject(error);
 });
 
@@ -41,13 +46,13 @@ service.interceptors.response.use(function (response) {
     // response就是相应的报文
     NProgress.done() //关闭进度条
     return response.data; //返回data数据
-  }, function (error) {
+}, function (error) {
     NProgress.done() //关闭进度条
-    alert('ajax请求失败，错误原因：'+error.message||'未知错误');
+    alert('ajax请求失败，错误原因：' + error.message || '未知错误');
     // 统一处理完成之后，这个错误可以让后面继续处理，也可以不让后面继续处理
     // return Promise.reject(error);
     // 也可以不让后面继续处理，终端promise链
-    return new Promise(()=>{}) //返回的是pending状态的promise，代表中断promise链
+    return new Promise(() => { }) //返回的是pending状态的promise，代表中断promise链
 });
 
 export default service //把封装好的axios实例暴露出去
