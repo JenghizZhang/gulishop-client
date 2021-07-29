@@ -1,8 +1,9 @@
+import { getUserInfo } from '@/api'
+import storageUtils from '@/utils/storageUtils'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import routes from './routes'
-
 Vue.use(VueRouter)
 
 // VueRouter是路由器对象的构造函数
@@ -36,6 +37,30 @@ const router = new VueRouter({
         } else {
             return { x: 0, y: 0 }
         }
+    }
+})
+
+// 注册全局导航守卫，用来对token校验（根据token获取用户信息）
+router.beforeEach(async (to, from, next) => {
+    //第一步，守卫拦截获取token 
+    let { token } = storageUtils.getUser()
+
+    if (token) {
+        // 如果token存在，需要去验证是否有效
+        const result = await getUserInfo()
+        console.log(result);
+        if (result.data) {
+            next()
+        } else {
+            // token过期，把过期token清理，重新登录
+            storageUtils.removeUser()
+            alert("登录已经过期，请重新登录");
+            next('/login')
+        }
+    } else {
+        // 用户没有登录
+        // 跳转去登录
+        next()
     }
 })
 

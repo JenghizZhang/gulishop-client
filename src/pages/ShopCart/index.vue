@@ -83,7 +83,7 @@
                 <span>全{{ isAllChecked ? null : "不" }}选</span>
             </div>
             <div class="option">
-                <a href="#none">删除选中的商品</a>
+                <a href="javascript:;" @click="deleteAll">删除选中的商品</a>
                 <a href="#none">移到我的关注</a>
                 <a href="#none">清除下柜商品</a>
             </div>
@@ -105,14 +105,20 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions } from "vuex";
 export default {
     name: "ShopCart",
+    data() {
+        return {
+            cartInfoList:[]
+        }
+    },
     methods: {
         ...mapActions("shopCart", [
             "getShopCartList",
             "updateShopCartIsChecked",
             "deleteShopCart",
+            "deleteShopCartAll"
         ]),
         // 修改购物车选中状态，单个修改
         async updateOneCheck(cart) {
@@ -127,7 +133,7 @@ export default {
         },
         // 删除单个购物车
         deleteOne(_, index) {
-            this.shopCartList.splice(index, 1);
+            this.cartInfoList.splice(index, 1);
             this.deleteShopCart(index)
                 .then((data) => {
                     // console.log(data);
@@ -136,12 +142,19 @@ export default {
                     alert(error.message);
                 });
         },
+        // 删除多个购物车数据
+        deleteAll(){
+            this.deleteShopCartAll(this.cartInfoList)
+            let newShopCartList = []
+            this.cartInfoList.forEach((item,index)=>{
+                if(!item.isChecked){
+                    newShopCartList.push(item)
+                }
+            })
+            this.cartInfoList = newShopCartList;
+        }
     },
     computed: {
-        ...mapState("shopCart", ["shopCartList"]),
-        cartInfoList() {
-            return this.shopCartList || [];
-        },
         // 统计件数
         ckeckedNum() {
             return this.cartInfoList.reduce(
@@ -172,7 +185,8 @@ export default {
         },
     },
     mounted() {
-        this.getShopCartList();
+        this.getShopCartList()
+            .then(data=>this.cartInfoList=data)
     },
 };
 </script>

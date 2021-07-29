@@ -6,7 +6,16 @@
             <div class="container">
                 <div class="loginList">
                     <p>尚品汇欢迎您！</p>
-                    <p>
+                    <p v-if="user.account">
+                        <span>欢迎{{ user.account }}</span>
+                        <a
+                            href="javascript:"
+                            :style="{ marginLeft: '10px' }"
+                            @click="logout"
+                            >退出登录</a
+                        >
+                    </p>
+                    <p v-else>
                         <span>请</span>
                         <router-link to="/login">登录</router-link>
                         <router-link to="/register">免费注册</router-link>
@@ -14,7 +23,7 @@
                 </div>
                 <div class="typeList">
                     <a href="###">我的订单</a>
-                    <a href="###">我的购物车</a>
+                    <router-link to="/shopCart">我的购物车</router-link>
                     <a href="###">我的尚品汇</a>
                     <a href="###">尚品汇会员</a>
                     <a href="###">企业采购</a>
@@ -56,12 +65,19 @@
 </template>
 
 <script>
+import storageUtils from "@/utils/storageUtils";
 export default {
     name: "Header",
     data() {
         return {
             keyWord: "",
+            // user: this.$store.state.user.user,
         };
+    },
+    computed: {
+        user(){
+            return this.$store.state.user.user
+        }
     },
     methods: {
         toSearch() {
@@ -71,7 +87,7 @@ export default {
                     params: { keyword: this.keyWord || undefined },
                     query: this.$route.query,
                 });
-            }else{
+            } else {
                 this.$router.push({
                     name: "search",
                     params: { keyword: this.keyWord || undefined },
@@ -81,6 +97,11 @@ export default {
         },
         setKeyword() {
             this.keyWord = "";
+        },
+        logout() {
+            storageUtils.removeUser();
+            this.$router.push("login");
+            this.$store.commit("user/CLEAR_USER");
         },
     },
     mounted() {

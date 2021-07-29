@@ -9,7 +9,6 @@ import axios from 'axios'
 // 引入nprogress相关的js和css
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import storageUtils from '@/utils/storageUtils'
 
 // 以后只要是对axios二次封装，不会再axios身上直接去封装，而是创建一个新的axios实例进行封装
 
@@ -18,7 +17,6 @@ import storageUtils from '@/utils/storageUtils'
 const service = axios.create({
     baseURL: '/mock', //基础路径，当前项目当中所有接口路径的公共路径
     timeout: 10000, //超时事件，当ajax请求超过设置的就会报错
-    // headers: {'X-Custom-Header': 'foobar'}
 })
 
 // 2. 添加进度条信息  nprogress
@@ -26,8 +24,6 @@ const service = axios.create({
 // 添加请求拦截器，添加请求头和额外的功能
 service.interceptors.request.use(function (config) {
     // config其实就是请求报文，需要return回去
-    const token = storageUtils.getToken()
-    token && (config.headers.Authorization = 'Bearer ' + token);  
     NProgress.start() //开启进度条
     return config;
   }, function (error) { //请求拦截器失败的回调一般不写，失败了就没有下文了

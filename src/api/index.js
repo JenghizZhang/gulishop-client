@@ -15,7 +15,7 @@ import request from './ajax'
 import mockAjax from './mockAjax'
 
 // 2. 登录
-export const reqLogin = (account, password) => {
+export const reqLogin = ({ account, password }) => {
     return request({
         url: '/user/passport/login',
         method: 'POST',
@@ -66,7 +66,7 @@ export const reqAddOrUpdateShopCart = (skuId, skuNum) => {
 }
 
 // 8. 切换商品选中状态
-export const reqUpdateCartIsCheck = (skuId, isChecked)=>{
+export const reqUpdateCartIsCheck = (skuId, isChecked) => {
     return request({
         url: `/cart/checkCart/${skuId}/${isChecked}`,
         method: 'GET',
@@ -74,10 +74,27 @@ export const reqUpdateCartIsCheck = (skuId, isChecked)=>{
 }
 
 // 9. 删除购物车商品
-export const reqDeleteShopCart = (skuId)=>{
+export const reqDeleteShopCart = (skuId) => {
     return request({
-        url: '/cart/deleteCart/'+skuId,
+        url: '/cart/deleteCart/' + skuId,
         method: 'DELETE',
+    })
+}
+
+// 16. 请求注册用户
+export const reqUserRegister = (userInfo) => {
+    return request({
+        url: '/user/passport/register',
+        method: 'POST',
+        data: userInfo
+    })
+}
+
+// 17.校验token
+export const getUserInfo = () => {
+    return request({
+        url: '/user/passport/auth/getUserInfo',
+        method: 'GET',
     })
 }
 

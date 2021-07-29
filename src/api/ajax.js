@@ -26,11 +26,12 @@ const service = axios.create({
 // 添加请求拦截器，添加请求头和额外的功能
 service.interceptors.request.use(function (config) {
     // config其实就是请求报文，需要return回去
-    const token = storageUtils.getToken()
+    const { token } = storageUtils.getUser()
     const tempId = storageUtils.getTempId()
     if (token) {
         config.headers.Authorization = 'Bearer ' + token
-    } else if (tempId) {
+    }
+    if (tempId) {
         config.headers.userTempId = tempId;
     }
     NProgress.start() //开启进度条

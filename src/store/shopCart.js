@@ -25,6 +25,7 @@ export default {
             const result = await reqCartList()
             if (result.code === 200) {
                 commit('RECEIVE_SHOPCARTLIST', result.data)
+                return result.data
             }
         },
         async updateShopCartIsChecked({ commit }, { skuId, isChecked }) {
@@ -58,6 +59,22 @@ export default {
             } else {
                 return Promise.reject(new Error('fail'))
             }
+        },
+        deleteShopCartAll({ commit, dispatch }, cartList) {
+            let promises = [];
+            cartList.forEach(item => {
+                if (!item.isChecked) {
+                    return
+                } else {
+                    let promise = dispatch('deleteShopCart', item.id)
+                    promises.push(promise)
+                }
+            })
+            Promise.all(promises)
+                .then(data => {
+                    alert('删除成功')
+                })
+                .catch(() => { })
         }
 
     },

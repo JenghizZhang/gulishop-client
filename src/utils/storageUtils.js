@@ -1,20 +1,19 @@
 import store from 'store'
-
-const TOKEN_KEY = 'token'
+const USER_KEY = 'user'
 const TEMP_KEY = 'temp_id'
 
 var storageUtils = {
     //保存user
-    saveToken(token) {
-        store.set(TOKEN_KEY, token)
+    saveUser(user) {
+        store.set(USER_KEY, user)
     },
     //读取user
-    getToken() {
-        return store.get(TOKEN_KEY) || ''
+    getUser() {
+        return store.get(USER_KEY) || {}
     },
     //删除user
-    removeToken() {
-        store.remove(TOKEN_KEY)
+    removeUser() {
+        store.remove(USER_KEY)
     },
 
     // 存储临时标识
