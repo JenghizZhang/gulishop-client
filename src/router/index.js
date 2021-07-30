@@ -48,7 +48,7 @@ router.beforeEach(async (to, from, next) => {
     if (token) {
         // 如果token存在，需要去验证是否有效
         const result = await getUserInfo()
-        console.log(result);
+        // console.log(result);
         if (result.data) {
             next()
         } else {

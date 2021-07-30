@@ -46,9 +46,19 @@ service.interceptors.request.use(function (config) {
 service.interceptors.response.use(function (response) {
     // response就是相应的报文
     NProgress.done() //关闭进度条
+    
     return response.data; //返回data数据
 }, function (error) {
     NProgress.done() //关闭进度条
+    if(error.code === 401){
+        alert('token过期请重新登录')
+        window.location.href='/login'
+    }
+    if (error.message === 'Request failed with status code 401') {
+        alert('请先登录')
+        window.location.href = '#/login'
+        return new Promise(() => { })
+    }
     alert('ajax请求失败，错误原因：' + error.message || '未知错误');
     // 统一处理完成之后，这个错误可以让后面继续处理，也可以不让后面继续处理
     // return Promise.reject(error);

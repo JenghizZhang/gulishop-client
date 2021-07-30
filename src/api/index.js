@@ -81,6 +81,38 @@ export const reqDeleteShopCart = (skuId) => {
     })
 }
 
+// 10. 获取订单交易信息
+export const reqTradeInfo = () => {
+    return request({
+        url: '/order/auth/trade',
+        method: 'GET',
+    })
+}
+
+// 12. 提交订单返回订单编号
+export const reqSubmitOrder = () => {
+    return request({
+        url:'/order/auth/submitOrder',
+        method: 'POST',
+    })
+}
+
+// 13. 获取订单支付信息
+export const reqPayInfo = () => {
+    return mockAjax({
+        url:'/payment/weixin/createNative',
+        method: 'GET',
+    })
+}
+
+// 14. 获取订单支付状态
+export const reqPayStatus = () => {
+    return mockAjax({
+        url:'/payment/weixin/queryPayStatus',
+        method: 'GET',
+    })
+}
+
 // 16. 请求注册用户
 export const reqUserRegister = (userInfo) => {
     return request({
@@ -94,6 +126,14 @@ export const reqUserRegister = (userInfo) => {
 export const getUserInfo = () => {
     return request({
         url: '/user/passport/auth/getUserInfo',
+        method: 'GET',
+    })
+}
+
+// 18.获取用户收获地址
+export const reqUserAddresses = () => {
+    return request({
+        url: '/user/userAddress/auth/findUserAddressList',
         method: 'GET',
     })
 }
