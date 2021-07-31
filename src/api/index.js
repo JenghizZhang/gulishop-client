@@ -89,10 +89,18 @@ export const reqTradeInfo = () => {
     })
 }
 
+// 11. 获取我的订单列表
+export const reqMyOrderInfo = () => {
+    return mockAjax({
+        url: '/order/auth',
+        method: 'GET',
+    })
+}
+
 // 12. 提交订单返回订单编号
 export const reqSubmitOrder = () => {
     return request({
-        url:'/order/auth/submitOrder',
+        url: '/order/auth/submitOrder',
         method: 'POST',
     })
 }
@@ -100,7 +108,7 @@ export const reqSubmitOrder = () => {
 // 13. 获取订单支付信息
 export const reqPayInfo = () => {
     return mockAjax({
-        url:'/payment/weixin/createNative',
+        url: '/payment/weixin/createNative',
         method: 'GET',
     })
 }
@@ -108,7 +116,7 @@ export const reqPayInfo = () => {
 // 14. 获取订单支付状态
 export const reqPayStatus = () => {
     return mockAjax({
-        url:'/payment/weixin/queryPayStatus',
+        url: '/payment/weixin/queryPayStatus',
         method: 'GET',
     })
 }

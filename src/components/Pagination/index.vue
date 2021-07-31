@@ -1,21 +1,46 @@
 <template>
     <div class="pagination">
-        <button :disabled="currentPageNo === 1" @click="$emit('changePageNo',currentPageNo-1)">上一页</button>
-        <button v-if='startEnd.start > 1' @click="$emit('changePageNo',1)">1</button>
-        <button v-if='startEnd.start > 2'>···</button>
+        <button
+            :disabled="currentPageNo === 1"
+            @click="$emit('changePageNo', currentPageNo - 1)"
+        >
+            上一页
+        </button>
+        <button v-if="startEnd.start > 1" @click="$emit('changePageNo', 1)">
+            1
+        </button>
+        <button v-if="startEnd.start > 2">···</button>
 
-        <button v-for="page in pageArr" :key="page" :class='{active:currentPageNo===page}' :disabled='currentPageNo===page' @click="$emit('changePageNo',page)">{{page}}</button>
+        <button
+            v-for="page in pageArr"
+            :key="page"
+            :class="{ active: currentPageNo === page }"
+            :disabled="currentPageNo === page"
+            @click="$emit('changePageNo', page)"
+        >
+            {{ page }}
+        </button>
 
-        <button v-if='startEnd.end < totalPageNo-1'>···</button>
-        <button v-if='startEnd.end < totalPageNo'  @click="$emit('changePageNo',totalPageNo)">{{ totalPageNo }}</button>
-        <button :disabled="currentPageNo === totalPageNo" @click="$emit('changePageNo',currentPageNo+1)">下一页</button>
+        <button v-if="startEnd.end < totalPageNo - 1">···</button>
+        <button
+            v-if="startEnd.end < totalPageNo"
+            @click="$emit('changePageNo', totalPageNo)"
+        >
+            {{ totalPageNo }}
+        </button>
+        <button
+            :disabled="currentPageNo === totalPageNo"
+            @click="$emit('changePageNo', currentPageNo + 1)"
+        >
+            下一页
+        </button>
 
-        <button style="margin-left: 30px" >共 {{ total }} 条</button>
+        <button style="margin-left: 30px">共 {{ total }} 条</button>
     </div>
 </template>
 
 <script>
-import range  from 'lodash/range'
+import range from "lodash/range";
 export default {
     name: "Pagination",
     props: ["currentPageNo", "total", "pageSize", "continueNo"],
@@ -47,12 +72,12 @@ export default {
                     end = totalPageNo;
                 }
             }
-            return { start, end };
+            return { start, end: Number(end) };
         },
-        pageArr(){
-            let { start, end } = this.startEnd
-            return range(start,end+1)
-        }
+        pageArr() {
+            let { start, end } = this.startEnd;
+            return range(start, end + 1);
+        },
     },
 };
 </script>

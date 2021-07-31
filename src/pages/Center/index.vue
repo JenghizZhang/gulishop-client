@@ -256,8 +256,8 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="choose-order">
-                            <div class="pagination">
+                        <div class="choose-order" >
+                            <!-- <div class="pagination">
                                 <ul>
                                     <li class="prev disabled">
                                         <a href="javascript:">«上一页</a>
@@ -284,7 +284,14 @@
                                         >&nbsp;&nbsp;&nbsp;&nbsp;共2页&nbsp;</span
                                     >
                                 </div>
-                            </div>
+                            </div> -->
+                            <Pagination
+                                :currentPageNo='pagination.currentPageNo'
+                                :total='pagination.total'
+                                :pageSize='pagination.pageSize'
+                                :continueNo='pagination.continueNo'
+                                @changePageNo="changePageNo"
+                            />
                         </div>
                     </div>
                     <!--猜你喜欢-->
@@ -357,6 +364,27 @@
 <script>
 export default {
     name: "Center",
+    data() {
+        return {
+            myOrderInfo: {},
+            pagination: {
+                currentPageNo:1,
+                total:31,
+                pageSize:2,
+                continueNo:5,
+            }
+        };
+    },
+    methods: {
+        changePageNo(page){
+            this.pagination.currentPageNo = page
+        }
+    },
+    mounted() {
+        this.$API.reqMyOrderInfo().then((result) => {
+            this.myOrderInfo = result.data;
+        });
+    },
 };
 </script>
 

@@ -193,6 +193,13 @@ export default {
     mounted() {
         this.$API.reqPayInfo().then((result) => {});
     },
+    beforeRouteEnter (to, from, next) {
+        if(from.path==='/trade'){
+            next()
+        }else{
+            next('/')
+        }
+    }
 };
 </script>
 

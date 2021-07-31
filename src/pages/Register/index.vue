@@ -10,45 +10,84 @@
             </h3>
             <div class="content">
                 <label>账户名:</label>
-                <input
+                <!-- <input
                     type="text"
                     placeholder="请输入你的账户名"
                     v-model="account"
                 />
-                <span class="error-msg">错误提示信息</span>
+                <span class="error-msg">错误提示信息</span> -->
+
+                <input
+                    v-model="account"
+                    name="account"
+                    autocomplete="off"
+                    placeholder="请输入你的账户名"
+                    v-validate="{ required: true, regex: /^\w{3,10}$/ }"
+                    :class="{ invalid: errors.has('account') }"
+                />
+                <span class="error-msg">{{ errors.first("account") }}</span>
             </div>
             <div class="content">
                 <label>验证码:</label>
-                <input type="text" placeholder="请输入验证码" v-model="code" />
-                <!-- <img
-                    ref="code"
-                    src="http://182.92.128.115/api/user/passport/code"
-                    alt="code"
-                /> -->
-                <span class="error-msg">错误提示信息</span>
+                <!-- <input type="text" placeholder="请输入验证码" v-model="code" />
+                <span class="error-msg">错误提示信息</span> -->
+
+                <input
+                    v-model="code"
+                    name="code"
+                    placeholder="请输入验证码"
+                    v-validate="{ required: true, regex: /^\d{1,10}$/ }"
+                    :class="{ invalid: errors.has('code') }"
+                />
+                <span class="error-msg">{{ errors.first("code") }}</span>
             </div>
             <div class="content">
                 <label>登录密码:</label>
-                <input
-                    type="text"
+                <!-- <input
+                    type="password"
                     placeholder="请输入你的登录密码"
                     v-model="password"
                 />
-                <span class="error-msg">错误提示信息</span>
+                <span class="error-msg">错误提示信息</span> -->
+                <input
+                    v-model="password"
+                    type="password"
+                    name="password"
+                    placeholder="请输入你的登录密码"
+                    v-validate="{ required: true, regex: /^\w{3,10}$/ }"
+                    :class="{ invalid: errors.has('password') }"
+                />
+                <span class="error-msg">{{ errors.first("password") }}</span>
             </div>
             <div class="content">
                 <label>确认密码:</label>
-                <input
+                <!-- <input
                     type="text"
                     placeholder="请输入确认密码"
                     v-model="password2"
                 />
-                <span class="error-msg">错误提示信息</span>
+                <span class="error-msg">错误提示信息</span> -->
+                <input
+                    v-model="password2"
+                    type="password"
+                    name="password2"
+                    placeholder="请输入确认密码"
+                    v-validate="{ required: true, is: password }"
+                    :class="{ invalid: errors.has('password2') }"
+                />
+                <span class="error-msg">{{ errors.first("password2") }}</span>
             </div>
             <div class="controls">
-                <input name="m1" type="checkbox" v-model="isChecked" />
+                <input
+                    v-model="isChecked"
+                    type="checkbox"
+                    name="isChecked"
+                    v-validate="{ required: true, agree: true }"
+                    :class="{ invalid: errors.has('isChecked') }"
+                />
                 <span>同意协议并注册《尚品汇用户协议》</span>
-                <span class="error-msg">错误提示信息</span>
+                <!-- <span class="error-msg">错误提示信息</span> -->
+                <span class="error-msg">{{ errors.first("isChecked") }}</span>
             </div>
             <div class="btn">
                 <button @click="register">完成注册</button>
@@ -88,16 +127,12 @@ export default {
     },
     methods: {
         ...mapActions("user", ["setRegister"]),
-        register() {
-            // 发请求存储到数据库
-            let { account, password, password2, code, isChecked } = this;
-            if (
-                account &&
-                password &&
-                password2 === password &&
-                code &&
-                isChecked
-            ) {
+        async register() {
+            const success = await this.$validator.validateAll(); // 对所有表单项进行验证
+            if (success) {
+                // 发请求存储到数据库
+                let { account, password } = this;
+
                 this.setRegister({ account, password }).then(() =>
                     this.$router.push("/home")
                 );
