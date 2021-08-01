@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from '@/App'
 import router from '@/router'
 import 'swiper/css/swiper.css'; //引入swiper的css
-import { Button, MessageBox, Message, Notification } from 'element-ui'
+import { Button, MessageBox, Message, Notification, Input } from 'element-ui'
 import VueLazyload from 'vue-lazyload'
 
 import '@/utils/validate'
@@ -27,6 +27,7 @@ Vue.prototype.$alert = MessageBox.alert;
 Vue.prototype.$message = Message;
 Vue.prototype.$notify = Notification;
 Vue.use(Button)
+Vue.use(Input)
 
 new Vue({
   beforeCreate() {
